@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StarTrack – Privacy Policy · Terms of Service · Support</title>
+  <style>
+    :root {
+      --blue: #007AFF;
+      --bg: #f5f5f7;
+      --card: #ffffff;
+      --text: #1d1d1f;
+      --sub: #6e6e73;
+      --border: #d2d2d7;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    /* ── Header ───────────────────────────────────────── */
+    header {
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: saturate(180%) blur(20px);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      border-bottom: 1px solid var(--border);
+      position: sticky; top: 0; z-index: 100;
+    }
+    .header-inner {
+      max-width: 860px; margin: 0 auto;
+      padding: 14px 24px;
+      display: flex; align-items: center; gap: 14px;
+    }
+    .app-icon {
+      width: 44px; height: 44px;
+      background: linear-gradient(135deg, #FBBF24, #F59E0B);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+    .app-name { font-size: 1.1rem; font-weight: 700; }
+    .app-sub  { font-size: 0.8rem; color: var(--sub); }
+    nav {
+      margin-left: auto;
+      display: flex; gap: 4px;
+    }
+    nav a {
+      color: var(--blue);
+      text-decoration: none;
+      font-size: 0.85rem;
+      padding: 6px 12px;
+      border-radius: 8px;
+      transition: background 0.15s;
+      white-space: nowrap;
+    }
+    nav a:hover { background: #007aff18; }
+
+    /* ── Layout ───────────────────────────────────────── */
+    main {
+      max-width: 860px; margin: 40px auto 80px;
+      padding: 0 24px;
+    }
+
+    /* ── Section cards ────────────────────────────────── */
+    .section-card {
+      background: var(--card);
+      border-radius: 18px;
+      padding: 40px 44px;
+      margin-bottom: 32px;
+      border: 1px solid var(--border);
+    }
+    .section-label {
+      display: inline-block;
+      background: var(--blue);
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 6px;
+      margin-bottom: 14px;
+    }
+    .section-card > h1 {
+      font-size: 1.55rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+    .section-card > .en-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--sub);
+      margin-bottom: 28px;
+    }
+
+    /* ── Language blocks ──────────────────────────────── */
+    .lang-block { margin-bottom: 36px; }
+    .lang-block:last-of-type { margin-bottom: 0; }
+    .lang-tag {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--sub);
+      margin-bottom: 12px;
+    }
+    .lang-divider {
+      border: none;
+      border-top: 1px dashed var(--border);
+      margin: 32px 0;
+    }
+    h2 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--blue);
+      margin: 22px 0 8px;
+    }
+    p { font-size: 0.92rem; color: #3a3a3c; margin-bottom: 8px; }
+    ul { padding-left: 18px; margin-bottom: 8px; }
+    li { font-size: 0.92rem; color: #3a3a3c; margin-bottom: 4px; }
+    strong { color: var(--text); }
+
+    /* ── Support card extras ──────────────────────────── */
+    .contact-box {
+      background: #f0f6ff;
+      border: 1px solid #c7deff;
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin: 20px 0;
+      display: flex; align-items: center; gap: 14px;
+    }
+    .contact-icon { font-size: 28px; }
+    .contact-label { font-size: 0.8rem; color: var(--sub); }
+    .contact-email {
+      font-size: 1rem; font-weight: 700; color: var(--blue);
+      text-decoration: none;
+    }
+    .contact-email:hover { text-decoration: underline; }
+
+    /* ── Footer ───────────────────────────────────────── */
+    footer {
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--sub);
+      padding: 24px;
+      border-top: 1px solid var(--border);
+    }
+
+    @media (max-width: 600px) {
+      .section-card { padding: 28px 20px; }
+      nav a { font-size: 0.78rem; padding: 5px 8px; }
+      .app-name { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="app-icon">⭐</div>
+    <div>
+      <div class="app-name">StarTrack</div>
+      <div class="app-sub">家庭成长鼓励 App</div>
+    </div>
+    <nav>
+      <a href="#privacy">隐私政策</a>
+      <a href="#terms">服务条款</a>
+      <a href="#support">支持</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- ══════════════════════════════════════════════════
+       PRIVACY POLICY
+  ══════════════════════════════════════════════════ -->
+  <div class="section-card" id="privacy">
+    <div class="section-label">Legal</div>
+    <h1>隐私政策</h1>
+    <div class="en-title">Privacy Policy</div>
+
+    <!-- 中文 -->
+    <div class="lang-block">
+      <div class="lang-tag">简体中文</div>
+
+      <p>StarTrack（以下简称"本应用"）非常重视用户隐私。本政策说明我们如何收集、使用和保护您的信息。</p>
+
+      <h2>1. 我们收集的信息</h2>
+      <p>本应用为家长管理儿童成长记录而设计，<strong>不要求提供真实姓名或电子邮件</strong>。我们收集以下信息：</p>
+      <ul>
+        <li><strong>匿名账户</strong>：通过 Supabase 进行匿名登录，生成唯一的用户 ID，不与真实身份关联。</li>
+        <li><strong>家庭与孩子信息</strong>：由家长主动输入的孩子名字、年龄段、头像（emoji 或照片）。</li>
+        <li><strong>使用数据</strong>：任务完成记录、星星余额、奖励兑换记录、成长打卡（身高体重、照片、视频、语音）。</li>
+        <li><strong>推送通知令牌</strong>：通过 Firebase 获取设备令牌，用于发送提醒通知（可在系统设置中关闭）。</li>
+        <li><strong>订阅状态</strong>：通过 RevenueCat 处理 Pro 订阅，我们仅保存订阅状态，支付信息由 Apple 处理。</li>
+      </ul>
+
+      <h2>2. 如何使用信息</h2>
+      <ul>
+        <li>提供 App 功能（任务、奖励、成长记录）</li>
+        <li>跨设备同步家庭数据</li>
+        <li>发送您选择开启的推送提醒</li>
+        <li>验证订阅状态以解锁 Pro 功能</li>
+      </ul>
+      <p>我们<strong>不</strong>将您的数据用于广告推送、行为分析或向第三方销售。</p>
+
+      <h2>3. 第三方服务</h2>
+      <ul>
+        <li><strong>Supabase</strong>：数据库与匿名认证，数据加密存储。</li>
+        <li><strong>Firebase（Google）</strong>：推送通知服务。</li>
+        <li><strong>RevenueCat</strong>：订阅管理，不处理支付卡信息。</li>
+        <li><strong>Apple</strong>：处理 App 内购支付。</li>
+      </ul>
+
+      <h2>4. 儿童隐私</h2>
+      <p>本应用由家长使用，儿童不直接使用本服务。孩子的数据（名字、记录）由家长掌控，家长可随时删除。我们不向儿童收集个人信息，符合 COPPA 相关要求。</p>
+
+      <h2>5. 数据安全与删除</h2>
+      <p>所有数据通过 TLS 加密传输，服务器端加密存储。您可随时在 App 设置中删除孩子档案或注销账户，删除后数据不可恢复。</p>
+
+      <h2>6. 政策修订</h2>
+      <p>本政策如有重大变更，我们将在 App 内通知。继续使用本应用即视为接受更新后的政策。</p>
+
+      <h2>7. 联系我们</h2>
+      <p>如对本政策有任何疑问，请发送邮件至 <strong>flyskyau1@gmail.com</strong></p>
+    </div>
+
+    <hr class="lang-divider">
+
+    <!-- English -->
+    <div class="lang-block">
+      <div class="lang-tag">English</div>
+
+      <p>StarTrack ("the App") is committed to protecting your privacy. This policy explains how we collect, use, and safeguard your information.</p>
+
+      <h2>1. Information We Collect</h2>
+      <p>The App is designed for parents to manage children's growth records. <strong>No real name or email address is required.</strong> We collect:</p>
+      <ul>
+        <li><strong>Anonymous Account</strong>: We use Supabase anonymous authentication, generating a unique user ID not linked to any real-world identity.</li>
+        <li><strong>Family & Child Data</strong>: Children's names, age groups, and avatars (emoji or photo) entered by parents.</li>
+        <li><strong>Usage Data</strong>: Task completions, star balances, reward redemptions, growth records (height/weight, photos, videos, voice notes).</li>
+        <li><strong>Push Notification Token</strong>: Device token via Firebase for optional reminder notifications (can be disabled in system settings).</li>
+        <li><strong>Subscription Status</strong>: Processed via RevenueCat. We only store subscription status; payment details are handled by Apple.</li>
+      </ul>
+
+      <h2>2. How We Use Information</h2>
+      <ul>
+        <li>Provide App functionality (tasks, rewards, growth records)</li>
+        <li>Sync family data across devices</li>
+        <li>Send push reminders you choose to enable</li>
+        <li>Verify subscription status to unlock Pro features</li>
+      </ul>
+      <p>We do <strong>not</strong> use your data for advertising, behavioral profiling, or sale to third parties.</p>
+
+      <h2>3. Third-Party Services</h2>
+      <ul>
+        <li><strong>Supabase</strong>: Database and anonymous authentication with encrypted storage.</li>
+        <li><strong>Firebase (Google)</strong>: Push notification delivery.</li>
+        <li><strong>RevenueCat</strong>: Subscription management; does not handle payment card data.</li>
+        <li><strong>Apple</strong>: Processes in-app purchase payments.</li>
+      </ul>
+
+      <h2>4. Children's Privacy</h2>
+      <p>The App is operated by parents; children do not directly interact with our service. All children's data is under parental control and can be deleted at any time. We do not knowingly collect personal information from children, consistent with COPPA principles.</p>
+
+      <h2>5. Data Security & Deletion</h2>
+      <p>All data is transmitted via TLS encryption and stored encrypted on our servers. You can delete child profiles or your account at any time in App settings. Deletion is permanent and irreversible.</p>
+
+      <h2>6. Policy Changes</h2>
+      <p>We will notify users of material changes via in-app notice. Continued use of the App constitutes acceptance of the updated policy.</p>
+
+      <h2>7. Contact</h2>
+      <p>For any questions about this policy, please email <strong>flyskyau1@gmail.com</strong></p>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════════════
+       TERMS OF SERVICE
+  ══════════════════════════════════════════════════ -->
+  <div class="section-card" id="terms">
+    <div class="section-label">Legal</div>
+    <h1>服务条款</h1>
+    <div class="en-title">Terms of Service</div>
+
+    <!-- 中文 -->
+    <div class="lang-block">
+      <div class="lang-tag">简体中文</div>
+
+      <p>在使用 StarTrack 之前，请仔细阅读以下条款。使用本应用即表示您接受这些条款。</p>
+
+      <h2>1. 服务对象</h2>
+      <p>本应用面向 13 岁及以上的用户（家长/监护人）使用。如您为儿童创建档案，您作为监护人对该数据负全部责任。</p>
+
+      <h2>2. 账户与数据</h2>
+      <p>您有责任维护您账户的安全。由于使用匿名登录，<strong>请保管好家庭邀请码</strong>，丢失后将无法在新设备上恢复数据。我们建议您定期导出或备份重要成长记录。</p>
+
+      <h2>3. Pro 订阅</h2>
+      <p>Pro 订阅通过 Apple App Store 内购提供，遵循 Apple 的订阅规则：</p>
+      <ul>
+        <li>订阅自动续期，可在 iTunes/App Store 账户设置中随时取消。</li>
+        <li>取消后，当前计费周期结束前仍可使用 Pro 功能。</li>
+        <li>免费用户限制：最多 1 个孩子、每个孩子最多 6 条行为任务。</li>
+        <li>价格可能因地区和汇率变动而调整。</li>
+      </ul>
+
+      <h2>4. 可接受使用</h2>
+      <p>您同意不将本应用用于任何非法目的，不上传违法、侵权或有害内容（包括儿童不雅照片等）。我们保留终止违规账户的权利。</p>
+
+      <h2>5. 免责声明</h2>
+      <p>本应用按"现状"提供，不作任何明示或暗示的保证。我们不对数据丢失、服务中断或因使用本应用产生的任何损失承担责任。</p>
+
+      <h2>6. 服务变更</h2>
+      <p>我们可能随时修改或终止服务（含免费功能限制的调整），届时将在 App 内提前告知。</p>
+
+      <h2>7. 条款修订</h2>
+      <p>我们可能更新这些条款，重大变更将通过 App 内通知告知。继续使用即视为接受最新条款。</p>
+
+      <h2>8. 联系我们</h2>
+      <p>如有任何疑问，请发送邮件至 <strong>flyskyau1@gmail.com</strong></p>
+    </div>
+
+    <hr class="lang-divider">
+
+    <!-- English -->
+    <div class="lang-block">
+      <div class="lang-tag">English</div>
+
+      <p>Please read these Terms carefully before using StarTrack. By using the App, you agree to be bound by these Terms.</p>
+
+      <h2>1. Eligibility</h2>
+      <p>The App is intended for users aged 13 and above (parents/guardians). If you create profiles for children, you as guardian bear full responsibility for that data.</p>
+
+      <h2>2. Account & Data</h2>
+      <p>You are responsible for maintaining account security. Since we use anonymous login, <strong>keep your family invite code safe</strong> — without it, data cannot be restored on a new device. We recommend exporting or backing up important growth records regularly.</p>
+
+      <h2>3. Pro Subscription</h2>
+      <p>Pro subscriptions are offered via Apple In-App Purchase and follow Apple's subscription rules:</p>
+      <ul>
+        <li>Subscriptions auto-renew; cancel anytime in your iTunes/App Store account settings.</li>
+        <li>Pro features remain accessible until the end of the current billing period after cancellation.</li>
+        <li>Free plan limits: up to 1 child and 6 tasks per child.</li>
+        <li>Pricing may vary by region and is subject to change.</li>
+      </ul>
+
+      <h2>4. Acceptable Use</h2>
+      <p>You agree not to use the App for any unlawful purpose or to upload illegal, infringing, or harmful content (including inappropriate images of minors). We reserve the right to terminate accounts that violate these terms.</p>
+
+      <h2>5. Disclaimer of Warranties</h2>
+      <p>The App is provided "as is" without warranty of any kind. We are not liable for data loss, service interruptions, or any damages arising from your use of the App.</p>
+
+      <h2>6. Service Changes</h2>
+      <p>We may modify or discontinue features (including changes to free plan limits) at any time with prior in-app notice.</p>
+
+      <h2>7. Changes to Terms</h2>
+      <p>We may update these Terms. Material changes will be communicated via in-app notice. Continued use constitutes acceptance of the latest Terms.</p>
+
+      <h2>8. Contact</h2>
+      <p>For any questions, please email <strong>flyskyau1@gmail.com</strong></p>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════════════
+       SUPPORT
+  ══════════════════════════════════════════════════ -->
+  <div class="section-card" id="support">
+    <div class="section-label">Help</div>
+    <h1>支持 / Support</h1>
+    <div class="en-title">We're here to help</div>
+
+    <div class="contact-box">
+      <div class="contact-icon">✉️</div>
+      <div>
+        <div class="contact-label">联系邮箱 / Contact Email</div>
+        <a class="contact-email" href="mailto:flyskyau1@gmail.com">flyskyau1@gmail.com</a>
+        <div class="contact-label" style="margin-top:4px">通常在 1-2 个工作日内回复 · Usually reply within 1-2 business days</div>
+      </div>
+    </div>
+
+    <div class="lang-block">
+      <div class="lang-tag">常见问题 · FAQ</div>
+
+      <h2>如何在新设备上恢复数据？</h2>
+      <p>在新设备安装 App 后，进入"设置 → 加入已有家庭"，输入旧设备上的家庭邀请码即可恢复所有数据。请妥善保存邀请码。</p>
+
+      <h2>如何取消 Pro 订阅？</h2>
+      <p>前往 iPhone「设置 → Apple ID → 订阅」，找到 StarTrack 并取消。当前计费周期内仍可使用 Pro 功能。</p>
+
+      <h2>我的成长照片/视频存在哪里？</h2>
+      <p>媒体文件加密存储在 Supabase 云端服务器，并缓存于本地设备。删除孩子档案会同步删除所有相关媒体。</p>
+
+      <h2>App 在中国大陆使用会慢吗？</h2>
+      <p>我们已做本地缓存优化：数据在本地 Hive 数据库中缓存，打开 App 立即显示，后台同步云端。网络不佳时操作（打勾任务、兑换奖励）仍会立即响应，联网后自动同步。</p>
+
+      <h2>How do I restore data on a new device?</h2>
+      <p>Install the App on your new device, go to Settings → Join Existing Family, and enter the family invite code from your old device. All data will be restored. Please keep your invite code safe.</p>
+
+      <h2>How do I cancel my Pro subscription?</h2>
+      <p>Go to iPhone Settings → Apple ID → Subscriptions, find StarTrack, and cancel. Pro features remain active until the end of the current billing period.</p>
+
+      <h2>Where are photos and videos stored?</h2>
+      <p>Media files are encrypted and stored on Supabase cloud servers, with a local device cache. Deleting a child's profile permanently removes all associated media.</p>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  StarTrack &nbsp;·&nbsp; Last Updated: 2026-03-31 &nbsp;·&nbsp;
+  <a href="mailto:flyskyau1@gmail.com" style="color:inherit">flyskyau1@gmail.com</a>
+</footer>
+
+</body>
+</html>
