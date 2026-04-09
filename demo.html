@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>手机交互 Demo</title>
+    <style>
+        body { margin: 0; background: #1a1a1a; position: fixed; width: 100%; height: 100%; overflow: hidden; font-family: sans-serif; }
+        canvas { background: #87CEEB; display: block; }
+        
+        /* UI 显示 */
+        .ui-top { position: absolute; top: 15px; left: 15px; right: 15px; display: flex; justify-content: space-between; pointer-events: none; }
+        .score { color: white; font-size: 24px; font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+        
+        /* 功能开关 - 必须可点击 */
+        #toggleBtn { pointer-events: auto; background: rgba(0,0,0,0.5); color: white; border: 1px solid white; padding: 5px 12px; border-radius: 5px; font-size: 14px; cursor: pointer; }
+
+        /* 虚拟按键区域 */
+        #virtualGamepad { position: absolute; bottom: 30px; width: 100%; display: flex; justify-content: space-between; padding: 0 30px; box-sizing: border-box; transition: opacity 0.3s; }
+        .btn-group { display: flex; gap: 20px; }
+        .ctrl-btn { width: 70px; height: 70px; background: rgba(255,255,255,0.2); border: 2px solid rgba(255,255,255,0.4); border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; font-weight: bold; font-size: 20px; user-select: none; -webkit-tap-highlight-color: transparent; }
+        .ctrl-btn:active { background: rgba(255,255,255,0.5); transform: scale(0.9); }
+        .hidden { opacity: 0; pointer-events: none; }
+    </style>
+</head>
+<body>
+
+<div class="ui-top">
+    <div class="score">得分: <span id="score">0</span></div>
+    <div id="toggleBtn">关闭虚拟键</div>
+</div>
+
+<canvas id="gameCanvas"></canvas>
+
+<div id="virtualGamepad">
+    <div class="btn-group">
+        <div class="ctrl-btn" id="btnLeft">←</div>
+        <div class="ctrl-btn" id="btnRight">→</div>
+    </div>
+    <div class="ctrl-btn" id="btnJump" style="background: rgba(255,100,100,0.3);">跳</div>
+</div>
+
+<script>
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+const scoreElement = document.getElementById('score');
+const gamepad = document.getElementById('virtualGamepad');
+const toggleBtn = document.getElementById('toggleBtn');
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+// --- 游戏逻辑变量 ---
+let score = 0;
+const gravity = 0.8;
+const player = { x: 100, y: 100, w: 35, h: 35, vx: 0, vy: 0, speed: 1.2, friction: 0.85, jumpPwr: 16, grounded: false };
+
+// 8个高低平台 (对应要求1)
+const platforms = [
+    {x: 0, y: canvas.height - 80, w: canvas.width, h: 80}, // 地面
+    {x: 150, y: canvas.height - 180, w: 120, h: 15},
+    {x: 350, y: canvas.height - 280, w: 120, h: 15},
+    {x: 100, y: canvas.height - 380, w: 100, h: 15},
+    {x: 500, y: canvas.height - 200, w: 150, h: 15},
+    {x: 700, y: canvas.height - 320, w: 100, h: 15},
+    {x: 400, y: canvas.height - 450, w: 120, h: 15},
+    {x: 200, y: canvas.height - 520, w: 100, h: 15}
+];
+
+// 15个红心 (对应要求3)
+let hearts = [];
+for(let i=0; i<18; i++) {
+    hearts.push({ x: Math.random()*(canvas.width-50)+25, y: Math.random()*(canvas.height-150)+50, active: true });
+}
+
+// --- 交互控制逻辑 ---
+let moveLeft = false;
+let moveRight = false;
+let isGamepadVisible = true;
+
+// 1. 虚拟键开关逻辑
+toggleBtn.onclick = () => {
+    isGamepadVisible = !isGamepadVisible;
+    gamepad.className = isGamepadVisible ? "" : "hidden";
+    toggleBtn.innerText = isGamepadVisible ? "关闭虚拟键" : "显示虚拟键";
+};
+
+// 2. 触摸按钮处理
+const bindBtn = (id, callback) => {
+    const el = document.getElementById(id);
+    el.addEventListener('touchstart', (e) => { e.preventDefault(); callback(true); });
+    el.addEventListener('touchend', (e) => { e.preventDefault(); callback(false); });
+};
+
+bindBtn('btnLeft', (v) => moveLeft = v);
+bindBtn('btnRight', (v) => moveRight = v);
+document.getElementById('btnJump').addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    if(player.grounded) { player.vy = -player.jumpPwr; player.grounded = false; }
+});
+
+// 3. 同时支持键盘 (如果连了蓝牙键盘)
+window.addEventListener('keydown', e => {
+    if(e.code === 'KeyA' || e.code === 'ArrowLeft') moveLeft = true;
+    if(e.code === 'KeyD' || e.code === 'ArrowRight') moveRight = true;
+    if(e.code === 'Space' && player.grounded) { player.vy = -player.jumpPwr; player.grounded = false; }
+});
+window.addEventListener('keyup', e => {
+    if(e.code === 'KeyA' || e.code === 'ArrowLeft') moveLeft = false;
+    if(e.code === 'KeyD' || e.code === 'ArrowRight') moveRight = false;
+});
+
+// --- 游戏循环 ---
+function update() {
+    if (moveLeft) player.vx -= player.speed;
+    if (moveRight) player.vx += player.speed;
+    
+    player.vx *= player.friction;
+    player.x += player.vx;
+    player.vy += gravity;
+    player.y += player.vy;
+
+    // 碰撞检测
+    player.grounded = false;
+    platforms.forEach(p => {
+        if (player.x < p.x + p.w && player.x + player.w > p.x &&
+            player.y + player.h > p.y && player.y + player.h < p.y + p.h + player.vy) {
+            player.grounded = true; player.vy = 0; player.y = p.y - player.h;
+        }
+    });
+
+    // 吃到红心
+    hearts.forEach(h => {
+        if (h.active && Math.abs(player.x + 17 - h.x) < 25 && Math.abs(player.y + 17 - h.y) < 25) {
+            h.active = false; score += 10; scoreElement.innerText = score;
+        }
+    });
+}
+
+function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    // 画平台
+    ctx.fillStyle = '#4a3728';
+    platforms.forEach(p => ctx.fillRect(p.x, p.y, p.w, p.h));
+    
+    // 画红心
+    ctx.fillStyle = '#ff4d4d';
+    hearts.forEach(h => { if(h.active) { ctx.beginPath(); ctx.arc(h.x, h.y, 10, 0, Math.PI*2); ctx.fill(); } });
+    
+    // 画玩家
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(player.x, player.y, player.w, player.h);
+}
+
+function loop() { update(); draw(); requestAnimationFrame(loop); }
+loop();
+</script>
+</body>
+</html>
