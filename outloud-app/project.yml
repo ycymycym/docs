@@ -1,0 +1,80 @@
+# XcodeGen spec for Outloud.
+#
+# Hand-maintaining a .pbxproj is error-prone, so the project is generated:
+#   brew install xcodegen
+#   cd outloud-app && xcodegen generate
+#   open Outloud.xcodeproj
+#
+# Two app targets (host + share extension) share the local ReaderCore SPM
+# package and one App Group. Bump DEVELOPMENT_TEAM to your team id before
+# archiving.
+
+name: Outloud
+options:
+  bundleIdPrefix: au.com.flysky.outloud
+  deploymentTarget:
+    iOS: "18.0"
+  createIntermediateGroups: true
+
+settings:
+  base:
+    DEVELOPMENT_TEAM: "REPLACE_WITH_TEAM_ID"
+    MARKETING_VERSION: "1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    SWIFT_VERSION: "5.10"
+    CODE_SIGN_STYLE: Automatic
+
+packages:
+  ReaderCore:
+    path: Packages/ReaderCore
+
+targets:
+  # ---------------- Host app ----------------
+  Outloud:
+    type: application
+    platform: iOS
+    sources:
+      - path: Outloud
+    dependencies:
+      - package: ReaderCore
+        product: ReaderCore
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: au.com.flysky.outloud
+        INFOPLIST_FILE: Outloud/Resources/Info.plist
+        CODE_SIGN_ENTITLEMENTS: Outloud/Resources/Outloud.entitlements
+        ENABLE_USER_SCRIPT_SANDBOXING: YES
+        GENERATE_INFOPLIST_FILE: NO
+    info:
+      path: Outloud/Resources/Info.plist
+
+  # ---------------- Share extension ----------------
+  ShareExtension:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: ShareExtension
+    dependencies:
+      - package: ReaderCore
+        product: ReaderCore
+      - target: Outloud
+        embed: false
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: au.com.flysky.outloud.ShareExtension
+        INFOPLIST_FILE: ShareExtension/Info.plist
+        CODE_SIGN_ENTITLEMENTS: ShareExtension/ShareExtension.entitlements
+
+schemes:
+  Outloud:
+    build:
+      targets:
+        Outloud: all
+        ShareExtension: all
+    run:
+      config: Debug
+      # Point the scheme at the bundled StoreKit config for local IAP testing.
+      storeKitConfiguration: StoreKit/Outloud.storekit
+    test:
+      targets:
+        - name: ReaderCore/ReaderCoreTests

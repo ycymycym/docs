@@ -1,0 +1,58 @@
+{
+  "identifier" : "OUTLOUD_STOREKIT_CONFIG",
+  "nonRenewingSubscriptions" : [],
+  "products" : [
+    {
+      "displayPrice" : "39.99",
+      "familyShareable" : false,
+      "internalID" : "OUTLOUD_LIFETIME",
+      "localizations" : [
+        {
+          "description" : "Pay once. No subscription, ever. Unlock unlimited length, every voice, and all speeds.",
+          "displayName" : "Outloud — Lifetime",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "au.com.flysky.outloud.lifetime",
+      "referenceName" : "Lifetime Unlock",
+      "type" : "NonConsumable"
+    }
+  ],
+  "settings" : {
+    "_applicationInternalID" : "0000000000",
+    "_developerTeamID" : "REPLACE_WITH_TEAM_ID"
+  },
+  "subscriptionGroups" : [
+    {
+      "id" : "OUTLOUD_SUBS",
+      "localizations" : [],
+      "name" : "Outloud Subscriptions",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [],
+          "displayPrice" : "4.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "OUTLOUD_MONTHLY",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "Monthly access (anchor price).",
+              "displayName" : "Outloud — Monthly",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "au.com.flysky.outloud.monthly",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "Monthly",
+          "subscriptionGroupID" : "OUTLOUD_SUBS",
+          "type" : "RecurringSubscription"
+        }
+      ]
+    }
+  ],
+  "version" : {
+    "major" : 4,
+    "minor" : 0
+  }
+}
