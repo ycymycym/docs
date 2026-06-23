@@ -91,7 +91,7 @@ public URL into App Store Connect (App Privacy → Privacy Policy URL). Then:
 
 - App Privacy: **Data Not Collected** (matches `PrivacyInfo.xcprivacy`).
 - In-App Purchases: create `au.com.flysky.outloud.lifetime` (Non-Consumable,
-  $39.99) and `au.com.flysky.outloud.monthly` ($4.99/mo) to match `Products.swift`.
+  $29.99) and `au.com.flysky.outloud.monthly` ($4.99/mo) to match `Products.swift`.
 - Background mode "Audio" + App Group `group.au.com.flysky.outloud` enabled on
   both targets in the Developer portal.
 - Archive → upload via Xcode Organizer / `xcodebuild -exportArchive`.
