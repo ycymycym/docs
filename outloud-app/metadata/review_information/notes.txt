@@ -1,0 +1,17 @@
+Outloud is a 100% on-device text-to-speech reader. No account or login is required to review the app.
+
+HOW TO TEST
+1. Open the app and tap "Paste a link or text", paste any paragraph, tap Listen — audio starts within a couple of seconds (after a one-time on-device voice download on first launch).
+2. Or share a PDF / Safari page to Outloud via the share sheet.
+3. Background audio: start playback, lock the screen — audio continues and Lock Screen controls (play/pause/skip) work.
+
+IN-APP PURCHASE
+- Free tier plays the first 5 minutes / 3000 characters of any document, then shows the paywall.
+- "Lifetime" ($39.99 non-consumable) removes the length cap. A "Monthly" subscription is shown only as a price anchor.
+- Restore Purchases re-unlocks on a fresh install. Tested in StoreKit sandbox.
+
+PRIVACY
+No data is collected. The only network request is a one-time voice-model download from our CDN on first launch; no user content or identifiers are transmitted.
+
+ENCRYPTION
+Uses only standard HTTPS — exempt (ITSAppUsesNonExemptEncryption = false).

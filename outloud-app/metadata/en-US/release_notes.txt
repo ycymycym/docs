@@ -1,0 +1,7 @@
+First public release.
+
+• Share a PDF or web page to Outloud and listen instantly
+• 100% on-device, works offline
+• Background playback + Lock Screen controls
+• Resume where you left off
+• Pay once — no subscription

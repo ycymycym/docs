@@ -1,0 +1,1 @@
+text to speech,tts,pdf reader,read aloud,listen,voice,offline,document,article,audio,study

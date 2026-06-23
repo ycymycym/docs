@@ -1,0 +1,79 @@
+# Outloud — single source of truth for the App Store submission pipeline.
+#
+# Drop-in config for an ASC-API driver (the ios-store-pipeline `asc.py` /
+# `submit_app.py` style). Field names are generic; rename to match your real
+# schema when you wire it up. Every value here matches the source
+# (Products.swift, *.storekit, *.entitlements, PrivacyInfo.xcprivacy).
+
+org:
+  name: "Fly Sky Pty Ltd"
+  team_id: "REPLACE_WITH_TEAM_ID"
+
+# ---- Step 1: identifiers + capabilities ----
+bundle_ids:
+  - id: "au.com.flysky.outloud"
+    name: "Outloud"
+    capabilities: ["APP_GROUPS", "BACKGROUND_MODES_AUDIO"]
+  - id: "au.com.flysky.outloud.ShareExtension"
+    name: "Outloud Share Extension"
+    capabilities: ["APP_GROUPS"]
+app_group: "group.au.com.flysky.outloud"
+
+# ---- Step 2: app record ----
+app:
+  name: "Outloud"
+  sku: "OUTLOUD-001"
+  primary_locale: "en-US"
+  bundle_id: "au.com.flysky.outloud"
+  primary_category: "PRODUCTIVITY"
+  secondary_category: "UTILITIES"
+  age_rating: "4+"
+
+# ---- Step 3: ASO / metadata (files in ../metadata) ----
+metadata_dir: "../metadata"
+locales: ["en-US"]
+
+# ---- Step 4: screenshots ----
+screenshots:
+  plan: "../metadata/screenshots/captions.md"
+  display_sizes: ["APP_IPHONE_69", "APP_IPHONE_65", "APP_IPAD_PRO_3GEN_13"]
+
+# ---- Step 5: in-app purchases ----
+in_app_purchases:
+  - product_id: "au.com.flysky.outloud.lifetime"
+    type: "NON_CONSUMABLE"
+    reference_name: "Lifetime Unlock"
+    price_tier_usd: 39.99
+    review_notes: "Removes the free 5-min / 3000-char length cap. Restore tested in sandbox."
+subscriptions:
+  group: "Outloud Subscriptions"
+  items:
+    - product_id: "au.com.flysky.outloud.monthly"
+      type: "AUTO_RENEWABLE"
+      reference_name: "Monthly"
+      period: "P1M"
+      price_tier_usd: 4.99
+      role: "anchor"   # shown crossed-out; not the primary CTA
+
+# ---- Step 6: privacy ----
+privacy:
+  data_collection: "NONE"            # App Privacy: Data Not Collected
+  tracking: false
+  policy_url: "https://ycymycym.github.io/docs/outloud/"
+  manifest: "../Outloud/Resources/PrivacyInfo.xcprivacy"
+  reviewer_note: "Only network call is a one-time on-device voice-model download; no user data leaves the device."
+
+# ---- Step 7: build ----
+build:
+  scheme: "Outloud"
+  export_method: "app-store"
+  marketing_version: "1.0"
+  build_number: "1"
+  uses_non_exempt_encryption: false
+  testflight_first: true
+
+# ---- Step 8: submit + release ----
+review_submission:
+  notes_file: "../metadata/review_information/notes.txt"
+  content_rights_declaration: "DOES_NOT_USE_THIRD_PARTY_CONTENT"  # Kokoro Apache-2.0, Readability Apache-2.0, MisakiSwift MIT
+  release_type: "MANUAL"   # or AFTER_APPROVAL
