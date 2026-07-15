@@ -1,0 +1,12 @@
+{
+  "appId": "com.miniarcade.app",
+  "appName": "Mini Arcade",
+  "webDir": "www",
+  "ios": {
+    "contentInset": "always",
+    "backgroundColor": "#fdf6ec"
+  },
+  "server": {
+    "iosScheme": "capacitor"
+  }
+}

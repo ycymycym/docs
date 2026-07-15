@@ -5,7 +5,17 @@
 
 import { PREVIEWS } from './previews.js';
 
+// Optional runtime config (set by a bundled config.js in the native app shell):
+//   window.ARCADE_CONFIG = { remoteBase: "https://you.github.io/docs/games" }
+// When remoteBase is set, the app loads its bundled catalog for offline play and
+// *overlays* extra/updated games fetched from that published URL — so new games
+// ship without an App Store update. When unset (plain web/PWA), everything is
+// same-origin and the manifest.json in this folder is the single source.
+const CFG = (typeof window !== 'undefined' && window.ARCADE_CONFIG) || {};
+const REMOTE_BASE = (CFG.remoteBase || '').replace(/\/+$/, '');
+
 const MANIFEST_URL = 'manifest.json';
+const REMOTE_MANIFEST_URL = REMOTE_BASE ? REMOTE_BASE + '/manifest.json' : MANIFEST_URL;
 const LS_MANIFEST = 'ma:manifest';       // cached catalog for offline launch
 const LS_SEENVER = 'ma:seenver';
 
@@ -46,14 +56,24 @@ async function loadCatalog() {
   else renderSkeleton();
 
   try {
+    // 1) local/bundled catalog — this is the offline base set.
     const res = await fetch(MANIFEST_URL, { cache: 'no-cache' });
     if (!res.ok) throw new Error('http ' + res.status);
-    const fresh = await res.json();
-    const changed = !cached || cached.version !== fresh.version;
-    localStorage.setItem(LS_MANIFEST, JSON.stringify(fresh));
-    renderGrid(fresh);
-    if (changed && cached) announceUpdate(cached.version, fresh.version);
-    else if (changed) markSeen(fresh.version);
+    const local = await res.json();
+    local.games.forEach(g => { g._base = ''; });
+
+    // 2) remote overlay — extra or updated games from the published URL.
+    const merged = await overlayRemote(local);
+
+    const prevIds = cached ? new Set(cached.games.map(g => g.id)) : null;
+    const changed = !cached || cached.version !== merged.version ||
+      merged.games.length !== (cached.games ? cached.games.length : 0);
+    localStorage.setItem(LS_MANIFEST, JSON.stringify(merged));
+    renderGrid(merged);
+
+    const added = prevIds ? merged.games.filter(g => !prevIds.has(g.id)).length : 0;
+    if (changed && cached) announceUpdate(added, merged.version);
+    else markSeen(merged.version);
   } catch (e) {
     if (!cached) {
       $('#grid').innerHTML =
@@ -66,21 +86,38 @@ async function loadCatalog() {
   updateNetBadge();
 }
 
+// Fetch the remote catalog and merge in games not present locally (and refresh
+// metadata for ones that are). Bundled games keep their local module so they
+// stay playable offline; brand-new games load their module from REMOTE_BASE.
+async function overlayRemote(local) {
+  if (!REMOTE_BASE || !navigator.onLine) return local;
+  try {
+    const res = await fetch(REMOTE_MANIFEST_URL, { cache: 'no-store' });
+    if (!res.ok) return local;
+    const remote = await res.json();
+    const byId = new Map(local.games.map(g => [g.id, g]));
+    remote.games.forEach(rg => {
+      if (byId.has(rg.id)) return;            // keep bundled (offline-capable) version
+      rg._base = REMOTE_BASE;                  // new game → load module from remote
+      local.games.push(rg);
+    });
+    // adopt the remote catalog version so update prompts track the publisher
+    if (remote.version) local.version = remote.version;
+    if (remote.title) local.title = remote.title;
+  } catch { /* offline / blocked — bundled set is fine */ }
+  return local;
+}
+
 function readCache() {
   try { return JSON.parse(localStorage.getItem(LS_MANIFEST)); }
   catch { return null; }
 }
 function markSeen(v) { localStorage.setItem(LS_SEENVER, v); }
 
-function announceUpdate(oldV, newV) {
-  const added = countNewGames();
-  const label = added > 0 ? `${added} new game${added > 1 ? 's' : ''} added!` : `Updated to v${newV}`;
-  toast(label, { label: 'Refresh', onClick: () => location.reload() });
+function announceUpdate(added, newV) {
+  const label = added > 0 ? `🎉 ${added} new game${added > 1 ? 's' : ''} added!` : `Updated to v${newV}`;
+  if (added > 0) toast(label);
   markSeen(newV);
-}
-function countNewGames() {
-  // best-effort: compare ids present now vs last catalog render
-  return 0;
 }
 
 /* ---------------- Rendering ---------------- */
@@ -104,7 +141,7 @@ function renderGrid(cat) {
   cat.games.forEach((g, i) => {
     const card = el('div', 'card');
     card.style.animationDelay = (i * 45) + 'ms';
-    const art = (PREVIEWS[g.id] && PREVIEWS[g.id](g)) || defaultArt(g);
+    const art = g.svg || (PREVIEWS[g.id] && PREVIEWS[g.id](g)) || defaultArt(g);
     const badges = (g.tags || []).map(t => `<span class="badge">${t}</span>`).join('');
     card.innerHTML = `
       <div class="card-inner" style="background:${g.color}">
@@ -136,7 +173,7 @@ async function openGame(g) {
   history.pushState({ game: g.id }, '', '#' + g.id);
 
   try {
-    const mod = await import(`../${g.module}?v=${encodeURIComponent(state.catalog.version)}`);
+    const mod = await import(moduleURL(g));
     stage.innerHTML = '';
     const api = makeApi(g);
     const ret = mod.mount(stage, api);
@@ -149,6 +186,15 @@ async function openGame(g) {
          This game failed to load.<br><small>${(e && e.message) || e}</small>
        </div>`;
   }
+}
+
+// Resolve a game's module URL. Absolute (http) modules load as-is; games from
+// the remote overlay load from REMOTE_BASE; bundled games load locally.
+function moduleURL(g) {
+  const v = `?v=${encodeURIComponent(state.catalog.version || '1')}`;
+  if (/^https?:/i.test(g.module)) return g.module + v;
+  if (g._base) return `${g._base}/${g.module}${v}`;
+  return `../${g.module}${v}`;
 }
 
 function makeApi(g) {
@@ -232,18 +278,22 @@ function init() {
 
 async function doUpdateCheck() {
   toast('Checking for updates…');
-  const before = state.catalog && state.catalog.version;
+  const beforeIds = new Set((state.catalog?.games || []).map(g => g.id));
+  const beforeVer = state.catalog?.version;
   try {
     const res = await fetch(MANIFEST_URL, { cache: 'no-store' });
-    const fresh = await res.json();
+    const local = await res.json();
+    local.games.forEach(g => { g._base = ''; });
+    const fresh = await overlayRemote(local);
     localStorage.setItem(LS_MANIFEST, JSON.stringify(fresh));
-    if (fresh.version !== before) {
+    const added = fresh.games.filter(g => !beforeIds.has(g.id)).length;
+    if (added > 0 || fresh.version !== beforeVer) {
       renderGrid(fresh);
       if ('serviceWorker' in navigator) {
         const reg = await navigator.serviceWorker.getRegistration();
         reg && reg.update();
       }
-      toast(`Updated to v${fresh.version}!`, { label: 'Reload', onClick: () => location.reload() });
+      toast(added > 0 ? `🎉 ${added} new game${added > 1 ? 's' : ''} added!` : `Updated to v${fresh.version} ✓`);
     } else {
       toast('You have the latest games ✓');
     }
