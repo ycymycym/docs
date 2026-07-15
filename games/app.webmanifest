@@ -1,0 +1,19 @@
+{
+  "name": "Mini Arcade — Offline Minigames",
+  "short_name": "Mini Arcade",
+  "description": "Classic brain-train minigames you can play offline. Tic Tac Toe, 2048, Snake, Minesweeper, Sudoku, Reversi and more.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#fdf6ec",
+  "theme_color": "#faf1e3",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='112' fill='%23faf1e3'/%3E%3Ctext y='372' x='256' font-size='320' text-anchor='middle'%3E%F0%9F%95%B9%EF%B8%8F%3C/text%3E%3C/svg%3E",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

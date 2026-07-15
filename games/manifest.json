@@ -1,0 +1,88 @@
+{
+  "version": "1.0.0",
+  "updated": "2026-07-15",
+  "title": "Mini Arcade",
+  "tagline": "Classic brain-train minigames",
+  "games": [
+    {
+      "id": "tictactoe",
+      "title": "Tic Tac Toe",
+      "module": "js/games/tictactoe.js",
+      "color": "#29b6f6",
+      "accent": "#1a1a1a",
+      "titleColor": "#1a1a1a",
+      "icon": "❌⭕",
+      "tags": ["2P", "AI"]
+    },
+    {
+      "id": "n2048",
+      "title": "Number Slide",
+      "module": "js/games/n2048.js",
+      "color": "#5d4037",
+      "accent": "#f2b53c",
+      "titleColor": "#f2b53c",
+      "icon": "🔢",
+      "tags": ["Puzzle"]
+    },
+    {
+      "id": "connect4",
+      "title": "4 in a Row",
+      "module": "js/games/connect4.js",
+      "color": "#26323f",
+      "accent": "#29b6f6",
+      "titleColor": "#29b6f6",
+      "icon": "🔴🔵",
+      "tags": ["2P", "AI"]
+    },
+    {
+      "id": "snake",
+      "title": "Snake",
+      "module": "js/games/snake.js",
+      "color": "#f3e2b8",
+      "accent": "#ef5350",
+      "titleColor": "#ef5350",
+      "icon": "🐍",
+      "tags": ["Arcade"]
+    },
+    {
+      "id": "minesweeper",
+      "title": "Minesweeper",
+      "module": "js/games/minesweeper.js",
+      "color": "#37474f",
+      "accent": "#ffffff",
+      "titleColor": "#ffffff",
+      "icon": "💣",
+      "tags": ["Puzzle"]
+    },
+    {
+      "id": "memory",
+      "title": "Tap Match",
+      "module": "js/games/memory.js",
+      "color": "#ef7069",
+      "accent": "#6b2622",
+      "titleColor": "#6b2622",
+      "icon": "🍉",
+      "tags": ["Memory"]
+    },
+    {
+      "id": "sudoku",
+      "title": "Sudoku",
+      "module": "js/games/sudoku.js",
+      "color": "#42a5f5",
+      "accent": "#bbdefb",
+      "titleColor": "#ffffff",
+      "icon": "🔡",
+      "tags": ["Puzzle"]
+    },
+    {
+      "id": "reversi",
+      "title": "Reversi",
+      "module": "js/games/reversi.js",
+      "color": "#37474f",
+      "accent": "#7fd4ff",
+      "titleColor": "#7fd4ff",
+      "icon": "⚫⚪",
+      "tags": ["2P", "AI"]
+    }
+  ]
+}

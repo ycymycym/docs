@@ -1,0 +1,6 @@
+# Generated / installed — recreated by `npm install` and `npm run add:ios`
+node_modules/
+www/
+ios/
+.DS_Store
+*.log
