@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#faf1e3">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="description" content="Mini Arcade — classic brain-train minigames you can play offline. Tic Tac Toe, 2048, Snake, Minesweeper, Sudoku and more.">
+  <title>Mini Arcade — Offline Minigames</title>
+  <link rel="manifest" href="app.webmanifest">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23faf1e3'/%3E%3Ctext y='72' x='50' font-size='64' text-anchor='middle'%3E%F0%9F%95%B9%EF%B8%8F%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+  <!-- ===== Home (game grid) ===== -->
+  <div id="home" class="screen">
+    <header class="topbar">
+      <button id="menuBtn" class="icon-btn" aria-label="Menu">
+        <span class="ham"><i></i><i></i></span>
+      </button>
+      <div class="brand">
+        <span class="brand-logo">🕹️</span>
+        <span class="brand-name">Mini Arcade</span>
+      </div>
+      <button id="refreshBtn" class="icon-btn" aria-label="Check for updates" title="Check for updates">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></svg>
+      </button>
+    </header>
+    <main id="grid" class="grid" aria-live="polite"></main>
+    <footer class="home-foot">
+      <span id="verLabel"></span>
+    </footer>
+  </div>
+
+  <!-- ===== Game screen ===== -->
+  <div id="player" class="screen hidden">
+    <header class="game-topbar">
+      <button id="backBtn" class="icon-btn" aria-label="Back">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <span id="gameTitle" class="game-title"></span>
+      <button id="restartBtn" class="icon-btn" aria-label="Restart" title="Restart">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>
+      </button>
+    </header>
+    <main id="stage" class="stage"></main>
+  </div>
+
+  <!-- ===== Side drawer ===== -->
+  <div id="drawer" class="drawer hidden">
+    <div class="drawer-scrim" data-close></div>
+    <nav class="drawer-panel">
+      <div class="drawer-head">
+        <span class="brand-logo">🕹️</span>
+        <span class="brand-name">Mini Arcade</span>
+      </div>
+      <p class="drawer-tag" id="drawerTag"></p>
+      <div class="drawer-links">
+        <button class="drawer-link" data-close>🎮 All Games</button>
+        <button class="drawer-link" id="drawerUpdate">🔄 Check for Updates</button>
+        <button class="drawer-link" id="drawerReset">🧹 Reset High Scores</button>
+      </div>
+      <div class="drawer-foot">
+        <span id="drawerVer"></span>
+        <span class="net-badge" id="netBadge"></span>
+      </div>
+    </nav>
+  </div>
+
+  <!-- ===== Toast ===== -->
+  <div id="toast" class="toast hidden"></div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
